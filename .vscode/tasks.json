@@ -6,12 +6,12 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "cd ${workspaceFolder}/build && ninja glim",
+            "command": "cd ${workspaceFolder}/build && ninja",
         },
         {
             "label": "test",
             "type": "shell",
-            "command": "cd ${workspaceFolder}/build && ./glim",
+            "command": "(cd ${workspaceFolder}/build/test && ./glim_test) && (cd ${workspaceFolder}/build/example && ./example)",
             "dependsOn": "build",
             "group": {
                 "kind": "build",

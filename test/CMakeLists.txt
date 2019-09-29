@@ -14,7 +14,7 @@ if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/catch.hpp)
     endif()
 endif()
 
-set(source_files test.cpp)
+set(source_files image.cpp test.cpp)
 add_executable(glim_test ${source_files})
 target_link_libraries(glim_test PUBLIC glim)
 target_include_directories(glim_test PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

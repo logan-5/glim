@@ -1,0 +1,12 @@
+#ifndef GLIM_CONFIG_HPP
+#define GLIM_CONFIG_HPP
+
+namespace glim {
+namespace fs {
+inline constexpr const char* projectPath() {
+    return "@PROJECT_PATH@";
+}
+}  // namespace fs
+}  // namespace glim
+
+#endif
