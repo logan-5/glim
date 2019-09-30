@@ -20,7 +20,7 @@ std::string Image::asPPM() const {
         for (usize c = 0; c < width; ++c) {
             const ColorType& pixel = (*this)(c, r);
             for (usize i = 0; i < channels; ++i) {
-                ppm += std::to_string(static_cast<int>(pixel[i]) * 255);
+                ppm += std::to_string(static_cast<int>(pixel[i] * 255));
                 ppm += (i + 1 == channels) ? '\n' : ' ';
             }
         }

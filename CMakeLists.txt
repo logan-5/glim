@@ -12,15 +12,27 @@ configure_file(
 set(SRC ${SRC} ${CONFIG_HEADER_PATH})
 
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(SRC ${SRC} ${SRC_DIR}/image.cpp ${SRC_DIR}/fs.cpp)
-set(HEADERS ${HEADERS} ${SRC_DIR}/image.hpp ${SRC_DIR}/fs.hpp)
+set(SRC ${SRC} 
+    ${SRC_DIR}/image.cpp 
+    ${SRC_DIR}/fs.cpp 
+    ${SRC_DIR}/ray.cpp
+    ${SRC_DIR}/sampler.cpp
+    ${SRC_DIR}/scene.cpp
+    )
+set(HEADERS ${HEADERS} 
+    ${SRC_DIR}/image.hpp 
+    ${SRC_DIR}/fs.hpp 
+    ${SRC_DIR}/ray.hpp
+    ${SRC_DIR}/sampler.hpp
+    ${SRC_DIR}/scene.hpp
+    )
 
 add_library(glim "")
 target_link_libraries(glim PUBLIC cm)
 target_include_directories(glim PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(glim PUBLIC ${SRC_DIR})
 target_sources(glim PRIVATE ${SRC})
-target_sources(glim PUBLIC ${HEADERS})
+target_sources(glim PRIVATE ${HEADERS})
 set_property(TARGET glim PROPERTY CXX_STANDARD 17)
 
 option(ASAN "ASAN" OFF)
