@@ -2,6 +2,10 @@
 #define GLIM_SCENE_HPP
 
 #include "fwd.hpp"
+#include "object.hpp"
+
+#include <memory>
+#include <vector>
 
 namespace glim {
 
@@ -14,8 +18,11 @@ struct BackgroundGradient {  // for now
 class Scene {
    public:
     explicit Scene(BackgroundGradient background) : background{background} {}
+    ~Scene();
 
     Color3 sample(const Ray& ray) const;
+
+    std::vector<std::unique_ptr<Object>> objects;
 
    private:
     BackgroundGradient background;
