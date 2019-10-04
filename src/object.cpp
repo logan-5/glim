@@ -26,7 +26,8 @@ MaterialObject::MaterialObject(std::unique_ptr<Material> m)
 MaterialObject::~MaterialObject() = default;
 
 Scatter MaterialObject::scatter(const HitResult& hitResult) const {
-    return material->scatter(hitResult.location, hitResult.normal);
+    return material->scatter(hitResult.location, hitResult.fromDirection,
+                             hitResult.normal);
 }
 
 Sphere::Sphere(cm::vec3 center,
@@ -53,13 +54,13 @@ std::optional<HitResult> Sphere::hit(const Ray& ray,
             inRange(hitT, minT, maxT)) {
             const cm::vec3 hitPoint = ray.pointAtT(hitT);
             const cm::vec3 normal = cm::normalized(hitPoint - center);
-            return HitResult{hitPoint, normal, hitT};
+            return HitResult{hitPoint, direction, normal, hitT};
         }
         if (const float hitT = (-b + std::sqrt(discriminant)) / (2.f * a);
             inRange(hitT, minT, maxT)) {
             const cm::vec3 hitPoint = ray.pointAtT(hitT);
             const cm::vec3 normal = cm::normalized(hitPoint - center);
-            return HitResult{hitPoint, normal, hitT};
+            return HitResult{hitPoint, direction, normal, hitT};
         }
     }
     return std::nullopt;

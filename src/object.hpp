@@ -12,7 +12,13 @@ class Ray;
 struct Scatter;
 
 struct HitResult {
+    HitResult(cm::vec3 location, cm::vec3 direction, cm::vec3 normal, float t)
+        : location{location}
+        , fromDirection{cm::normalized(direction)}
+        , normal{normal}
+        , t{t} {}
     cm::vec3 location;
+    cm::vec3 fromDirection;
     cm::vec3 normal;
     float t;
 };
