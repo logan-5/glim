@@ -6,25 +6,57 @@
 #include <optional>
 
 namespace glim {
+
+class Material;
 class Ray;
+struct Scatter;
+
+struct HitResult {
+    cm::vec3 location;
+    cm::vec3 normal;
+    float t;
+};
 
 class Object {
    public:
+    Object();
     virtual ~Object() = default;
-    virtual std::optional<Color3> hit(const Ray& r) const = 0;
+    virtual std::optional<HitResult> hit(const Ray& r,
+                                         float minT,
+                                         float maxT) const = 0;
+    virtual Scatter scatter(const HitResult& hit) const = 0;
+
+    int getID() const { return objectID; }
+
+   protected:
+    int objectID;
 };
 
-class Sphere : public Object {
+class MaterialObject : public Object {
    public:
-    explicit Sphere(cm::vec3 center, float radius, Color3 color)
-        : center{center}, radius{radius}, color{color} {}
+    explicit MaterialObject(std::unique_ptr<Material> m);
+    ~MaterialObject() override;
 
-    std::optional<Color3> hit(const Ray&) const override;
+    Scatter scatter(const HitResult& hit) const override;
+
+   protected:
+    std::unique_ptr<Material> material;
+};
+
+class Sphere final : public MaterialObject {
+   public:
+    explicit Sphere(cm::vec3 center,
+                    float radius,
+                    std::unique_ptr<Material> material);
+    ~Sphere() override;
+
+    std::optional<HitResult> hit(const Ray&,
+                                 float minT,
+                                 float maxT) const override;
 
    private:
     cm::vec3 center;
     float radius;
-    Color3 color;
 };
 
 }  // namespace glim

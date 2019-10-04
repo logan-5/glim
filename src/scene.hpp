@@ -20,11 +20,13 @@ class Scene {
     explicit Scene(BackgroundGradient background) : background{background} {}
     ~Scene();
 
-    Color3 sample(const Ray& ray) const;
+    Color3 sample(const Ray& ray, int numberOfBounces) const;
 
     std::vector<std::unique_ptr<Object>> objects;
 
    private:
+    Color3 sampleBackground(const Ray& ray) const;
+
     BackgroundGradient background;
 };
 

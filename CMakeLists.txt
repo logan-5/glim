@@ -15,6 +15,7 @@ set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(SRC ${SRC} 
     ${SRC_DIR}/image.cpp 
     ${SRC_DIR}/fs.cpp 
+    ${SRC_DIR}/material.cpp
     ${SRC_DIR}/object.cpp
     ${SRC_DIR}/ray.cpp
     ${SRC_DIR}/sampler.cpp
@@ -23,7 +24,8 @@ set(SRC ${SRC}
 set(HEADERS ${HEADERS} 
     ${SRC_DIR}/image.hpp 
     ${SRC_DIR}/fs.hpp 
-    ${SRC_DIR}/object.cpp
+    ${SRC_DIR}/material.hpp
+    ${SRC_DIR}/object.hpp
     ${SRC_DIR}/ray.hpp
     ${SRC_DIR}/sampler.hpp
     ${SRC_DIR}/scene.hpp
