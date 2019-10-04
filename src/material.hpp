@@ -34,7 +34,8 @@ class Diffuse : public Material {
 
 class Metal : public Material {
    public:
-    explicit Metal(Color3 color) : color{color} {}
+    explicit Metal(Color3 color, float roughness)
+        : color{color}, roughness{roughness} {}
 
     Scatter scatter(cm::vec3 hitPoint,
                     cm::vec3 hitDirection,
@@ -42,6 +43,7 @@ class Metal : public Material {
 
    private:
     Color3 color;
+    float roughness;
 };
 
 }  // namespace glim
