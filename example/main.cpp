@@ -7,11 +7,23 @@
 #include "sampler.hpp"
 #include "scene.hpp"
 
+namespace {
+glim::Sampler::Config getSamplerConfig() {
+    glim::Sampler::Config config;
+    config.width = 1000;
+    config.height = 500;
+    config.numberOfBounces = 5;
+    config.numberOfSamples = 500;
+    config.chunkSize = 32;
+    return config;
+}
+}  // namespace
+
 int main() {
     using namespace glim;
     Scene scene{
           BackgroundGradient{Color3{0.5f, 0.5f, 1.f}, Color3{1.f, 0.5f, 1.f}}};
-    Sampler sampler{1000, 500, scene, 5, 500};
+    Sampler sampler{getSamplerConfig(), scene};
 
     auto blueSteel = std::make_unique<Metal>(Color3{0.3f, 0.5f, 1.f}, 0.025f);
     auto red = std::make_unique<Diffuse>(Color3{1.f, 0.5f, 0.5f});
