@@ -1,3 +1,5 @@
-add_executable(example main.cpp)
+find_package(SFML 2.5 COMPONENTS graphics window REQUIRED)
+add_executable(example main.cpp WindowSamplerConsumer.cpp)
 target_link_libraries(example glim)
+target_link_libraries(example sfml-graphics sfml-window)
 set_property(TARGET example PROPERTY CXX_STANDARD 17)

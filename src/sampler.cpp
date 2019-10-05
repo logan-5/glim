@@ -15,7 +15,7 @@ void Sampler::run() {
         const usize size = config.chunkSize;
         runChunk(i * config.chunkSize, config.chunkSize);
         if (consumer) {
-            consumer->finishedChunk(idx, size);
+            consumer->finishedChunk(image, idx, size);
         }
     }
 }

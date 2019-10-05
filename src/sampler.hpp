@@ -11,7 +11,9 @@ class Sampler {
    public:
     struct Consumer {
         virtual ~Consumer() = default;
-        virtual void finishedChunk(usize chunkIndex, usize chunkSize) = 0;
+        virtual void finishedChunk(const Image& image,
+                                   usize chunkIndex,
+                                   usize chunkSize) = 0;
     };
 
     struct Config {

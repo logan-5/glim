@@ -1,3 +1,5 @@
+#include "WindowSamplerConsumer.hpp"
+
 #include "fs.hpp"
 #include "fwd.hpp"
 #include "image.hpp"
@@ -14,7 +16,7 @@ glim::Sampler::Config getSamplerConfig() {
     config.height = 500;
     config.numberOfBounces = 5;
     config.numberOfSamples = 500;
-    config.chunkSize = 32;
+    config.chunkSize = 1024;
     return config;
 }
 }  // namespace
@@ -23,7 +25,9 @@ int main() {
     using namespace glim;
     Scene scene{
           BackgroundGradient{Color3{0.5f, 0.5f, 1.f}, Color3{1.f, 0.5f, 1.f}}};
-    Sampler sampler{getSamplerConfig(), scene};
+    const auto config = getSamplerConfig();
+    WindowSamplerConsumer window{config.width, config.height};
+    Sampler sampler{config, scene, &window};
 
     auto blueSteel = std::make_unique<Metal>(Color3{0.3f, 0.5f, 1.f}, 0.025f);
     auto red = std::make_unique<Diffuse>(Color3{1.f, 0.5f, 0.5f});
