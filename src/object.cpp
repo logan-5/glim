@@ -70,6 +70,9 @@ Plane::Plane(cm::vec3 point, cm::vec3 normal, std::unique_ptr<Material> m)
     , point{point}
     , normal{cm::normalized(normal)} {}
 
+Plane::Plane(cm::vec3 a, cm::vec3 b, cm::vec3 c, std::unique_ptr<Material> m)
+    : Plane{a, cm::cross(a - b, a - c), std::move(m)} {}
+
 std::optional<HitResult> Plane::hit(const Ray& ray,
                                     const float minT,
                                     const float maxT) const {

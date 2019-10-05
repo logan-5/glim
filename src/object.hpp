@@ -70,6 +70,11 @@ class Plane : public MaterialObject {
                    cm::vec3 normal,
                    std::unique_ptr<Material> material);
 
+    explicit Plane(cm::vec3 a,
+                   cm::vec3 b,
+                   cm::vec3 c,
+                   std::unique_ptr<Material> m);
+
     std::optional<HitResult> hit(const Ray&,
                                  const float minT,
                                  const float maxT) const override;
