@@ -54,7 +54,6 @@ class Sphere final : public MaterialObject {
     explicit Sphere(cm::vec3 center,
                     float radius,
                     std::unique_ptr<Material> material);
-    ~Sphere() override;
 
     std::optional<HitResult> hit(const Ray&,
                                  float minT,
@@ -63,6 +62,21 @@ class Sphere final : public MaterialObject {
    private:
     cm::vec3 center;
     float radius;
+};
+
+class Plane : public MaterialObject {
+   public:
+    explicit Plane(cm::vec3 point,
+                   cm::vec3 normal,
+                   std::unique_ptr<Material> material);
+
+    std::optional<HitResult> hit(const Ray&,
+                                 const float minT,
+                                 const float maxT) const override;
+
+   private:
+    cm::vec3 point;
+    cm::vec3 normal;
 };
 
 }  // namespace glim

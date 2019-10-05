@@ -33,6 +33,8 @@ class Image {
     usize getWidth() const { return width; }
     usize getHeight() const { return height; }
 
+    usize getSize() const { return getWidth() * getHeight(); }
+
    private:
     usize width, height;
     std::vector<ColorType> buffer;
