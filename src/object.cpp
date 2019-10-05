@@ -34,7 +34,6 @@ Sphere::Sphere(cm::vec3 center,
                float radius,
                std::unique_ptr<Material> material)
     : MaterialObject{std::move(material)}, center{center}, radius{radius} {}
-Sphere::~Sphere() = default;
 
 std::optional<HitResult> Sphere::hit(const Ray& ray,
                                      const float minT,
@@ -61,6 +60,24 @@ std::optional<HitResult> Sphere::hit(const Ray& ray,
             const cm::vec3 hitPoint = ray.pointAtT(hitT);
             const cm::vec3 normal = cm::normalized(hitPoint - center);
             return HitResult{hitPoint, direction, normal, hitT};
+        }
+    }
+    return std::nullopt;
+}
+
+Plane::Plane(cm::vec3 point, cm::vec3 normal, std::unique_ptr<Material> m)
+    : MaterialObject{std::move(m)}
+    , point{point}
+    , normal{cm::normalized(normal)} {}
+
+std::optional<HitResult> Plane::hit(const Ray& ray,
+                                    const float minT,
+                                    const float maxT) const {
+    if (const float denom = cm::dot(ray.getDirection(), normal); denom < 0.f) {
+        const float hitT = cm::dot(point - ray.getOrigin(), normal) / denom;
+        if (inRange(hitT, minT, maxT)) {
+            const auto hitPoint = ray.pointAtT(hitT);
+            return HitResult{hitPoint, ray.getDirection(), normal, hitT};
         }
     }
     return std::nullopt;
