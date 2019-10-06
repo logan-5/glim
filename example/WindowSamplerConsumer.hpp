@@ -16,6 +16,8 @@ class WindowSamplerConsumer : public glim::Sampler::Consumer {
 
     void wait();
 
+    void loop();
+
    private:
     struct Impl;
     std::unique_ptr<Impl> impl;

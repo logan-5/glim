@@ -3,6 +3,7 @@
 
 #include "fwd.hpp"
 #include "image.hpp"
+#include "task_queue.hpp"
 
 namespace glim {
 class Scene;
@@ -21,6 +22,7 @@ class Sampler {
         usize numberOfBounces;
         usize numberOfSamples;
         usize chunkSize = 32;
+        usize numberOfThreads = 1;
     };
     explicit Sampler(const Config& config,
                      const Scene& scene,
@@ -28,9 +30,13 @@ class Sampler {
         : image{config.width, config.height}
         , scene{scene}
         , config{config}
-        , consumer{consumer} {}
+        , consumer{consumer}
+        , tasks{config.numberOfThreads} {}
 
     void run();
+
+    bool finished() const { return tasks.finished(); }
+    void cancel() { tasks.cancel(); }
 
     const Image& getImage() const { return image; }
 
@@ -41,6 +47,7 @@ class Sampler {
     std::reference_wrapper<const Scene> scene;
     Config config;
     Consumer* consumer;
+    TaskQueue tasks;
 };
 }  // namespace glim
 

@@ -17,6 +17,7 @@ glim::Sampler::Config getSamplerConfig() {
     config.numberOfBounces = 5;
     config.numberOfSamples = 500;
     config.chunkSize = 1024;
+    config.numberOfThreads = 8;
     return config;
 }
 }  // namespace
@@ -40,7 +41,11 @@ int main() {
                                                     cm::vec3{0.f, 1.f, 0.f},
                                                     std::move(green)));
     sampler.run();
-
-    fs::write(postprocess::GammaCorrect{}(sampler.getImage()).asPPM(),
-              fs::AbsolutePath{fs::RelativePath{"image.ppm"}});
+    window.loop();
+    if (sampler.finished()) {
+        fs::write(postprocess::GammaCorrect{}(sampler.getImage()).asPPM(),
+                  fs::AbsolutePath{fs::RelativePath{"image.ppm"}});
+    } else {
+        sampler.cancel();
+    }
 }

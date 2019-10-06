@@ -2,6 +2,7 @@
 
 #include "ray.hpp"
 #include "scene.hpp"
+#include "task_queue.hpp"
 
 #include <cm/generic_ops.hpp>
 #include <cm/random.hpp>
@@ -13,10 +14,12 @@ void Sampler::run() {
     for (usize i = 0; i < numberOfChunks; ++i) {
         const usize idx = i * config.chunkSize;
         const usize size = config.chunkSize;
-        runChunk(i * config.chunkSize, config.chunkSize);
-        if (consumer) {
-            consumer->finishedChunk(image, idx, size);
-        }
+        tasks.enqueue([=] {
+            runChunk(i * config.chunkSize, config.chunkSize);
+            if (consumer) {
+                consumer->finishedChunk(image, idx, size);
+            }
+        });
     }
 }
 

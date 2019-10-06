@@ -70,8 +70,9 @@ void WindowSamplerConsumer::finishedChunk(const glim::Image& image,
         const auto rows = image.getHeight();
         for (usize chunk = chunkSize, i = startingR; chunk > 0 && i < rows;
              ++i) {
-            chunks.push_back({(i > startingR ? 0 : startingC),
-                              std::min(image.getWidth(), chunk), i});
+			const auto start = i > startingR ? 0 : startingC;
+            chunks.push_back({start,
+                              std::min(image.getWidth(), start + chunk), i});
             chunk -= chunks.back().end - chunks.back().start;
         }
     }
@@ -89,16 +90,22 @@ void WindowSamplerConsumer::finishedChunk(const glim::Image& image,
         impl->screenTexture.update(pixels.data(), size, 1, chunk.start,
                                    chunk.r);
     }
-
-    auto& window = impl->window;
-    window.clear();
-    window.draw(impl->screenSprite);
-    window.display();
-    impl->processEvents();
 }
 
 void WindowSamplerConsumer::wait() {
     while (impl->window.isOpen()) {
         impl->processEvents();
+    }
+}
+
+void WindowSamplerConsumer::loop() {
+    while (impl->window.isOpen()) {
+        impl->processEvents();
+        impl->window.clear();
+        {
+            std::lock_guard<std::mutex> l{impl->screenTextureMutex};
+            impl->window.draw(impl->screenSprite);
+        }
+        impl->window.display();
     }
 }
