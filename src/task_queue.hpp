@@ -39,11 +39,8 @@ class TaskQueue {
     }
 
     bool finished() const {
-        if (finished_) {
-            std::lock_guard<std::mutex> l{tasksMutex};
-            return tasks.empty();
-        }
-        return false;
+        std::lock_guard<std::mutex> l{tasksMutex};
+        return tasks.empty();
     }
     void cancel() { cancel_ = true; }
 
